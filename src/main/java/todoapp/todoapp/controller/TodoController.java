@@ -54,9 +54,11 @@ public class TodoController {
     }
 
     @PutMapping("/todos/{id}")  
-    public ResponseEntity<Todo> saveOrUpdate(@PathVariable("id")long id, @RequestBody Todo todo){
-    todoService.saveOrUpdate(id,todo);
-    return new ResponseEntity<Todo>(todo, HttpStatus.OK);
+    public ResponseEntity<String> saveOrUpdate(@PathVariable("id")long id){
+    Todo todo = todoService.findById(id);
+    todo.setCompleted(!todo.completed);
+    todoService.save(todo);
+    return new ResponseEntity<String>("todo updated", HttpStatus.OK);
     }
   
  
